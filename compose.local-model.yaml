@@ -1,0 +1,11 @@
+# Optional: reuse GGUF weights already downloaded on this computer.
+services:
+  model:
+    volumes:
+      - type: bind
+        source: ${TINY_AYA_GGUF_PATH:?Set TINY_AYA_GGUF_PATH to the local GGUF file}
+        target: /models/tiny-aya.gguf
+        read_only: true
+        bind:
+          create_host_path: false
+    command: ["-m", "/models/tiny-aya.gguf", "--alias", "CohereLabs/tiny-aya-global", "--host", "0.0.0.0", "--port", "8080", "-c", "4096", "-ngl", "0", "-t", "3", "--parallel", "1"]

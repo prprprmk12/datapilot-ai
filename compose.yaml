@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: datapilot
+      POSTGRES_USER: datapilot_admin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-datapilot_local_admin}
+    ports: ["127.0.0.1:5433:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datapilot_admin -d datapilot"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://datapilot_reader:datapilot_demo_reader@db:5432/datapilot
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-demo}
+      MODEL_ID: ${MODEL_ID:-CohereLabs/tiny-aya-global}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-http://model:8080/v1}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+      MODEL_TIMEOUT_SECONDS: ${MODEL_TIMEOUT_SECONDS:-180}
+      MODEL_CONSTRAINED_JSON: ${MODEL_CONSTRAINED_JSON:-true}
+      RUNS_PATH: /app/runs/episodes.sqlite3
+      MAX_ROWS: ${MAX_ROWS:-100}
+      STATEMENT_TIMEOUT_MS: ${STATEMENT_TIMEOUT_MS:-2000}
+    volumes:
+      - rundata:/app/runs
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  ui:
+    build: ./frontend
+    ports: ["127.0.0.1:8501:80"]
+    depends_on:
+      api: {condition: service_healthy}
+  model:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    profiles: ["ai"]
+    volumes:
+      - modelcache:/root/.cache/llama.cpp
+    environment:
+      HF_TOKEN: ${HF_TOKEN:-}
+    command: ["-hf", "CohereLabs/tiny-aya-global-GGUF:Q4_K_M", "--alias", "CohereLabs/tiny-aya-global", "--host", "0.0.0.0", "--port", "8080", "-c", "4096", "-ngl", "0", "-t", "3", "--parallel", "1"]
+
+volumes:
+  pgdata:
+  modelcache:
+  rundata:

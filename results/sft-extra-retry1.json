@@ -1,0 +1,2262 @@
+{
+  "created_at": "2026-11-08T17:24:02.215335+00:00",
+  "model": "/tmp/sft-extra-merged",
+  "variant": "tuned",
+  "sql_retries": 1,
+  "trained": true,
+  "split": "test",
+  "case_file_sha256": "cb23d6b81e95baec8a6977f56dd0f9c9b9cc3a83d9a155323ec2577deba87a03",
+  "completed": 18,
+  "planned": 18,
+  "successes": 12,
+  "outcomes": [
+    {
+      "id": "paid-profit-01",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 1"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 1"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 25514
+    },
+    {
+      "id": "paid-profit-02",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 2"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 2"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 7167
+    },
+    {
+      "id": "paid-profit-03",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 3"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 3"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 7640
+    },
+    {
+      "id": "paid-profit-04",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 4"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 4"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 7939
+    },
+    {
+      "id": "paid-profit-05",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 5"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 5"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 8471
+    },
+    {
+      "id": "paid-profit-06",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 5,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "order_items"
+          },
+          "output": [
+            {
+              "column_name": "order_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "product_id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "quantity",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "unit_cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "describe_table",
+          "arguments": {
+            "table": "products"
+          },
+          "output": [
+            {
+              "column_name": "id",
+              "data_type": "integer",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "name",
+              "data_type": "text",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "price",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            },
+            {
+              "column_name": "cost",
+              "data_type": "numeric",
+              "is_nullable": "NO"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-i.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 6"
+          },
+          "error_type": "UndefinedColumn",
+          "output": {
+            "error": "column i.cost does not exist Hint: Perhaps you meant to reference the column \"p.cost\"."
+          }
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name,SUM(i.quantity*(p.price-p.cost)) AS profit FROM order_items i JOIN products p ON p.id=i.product_id WHERE i.order_status='paid' GROUP BY p.id,p.name ORDER BY profit DESC,p.id LIMIT 6"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 8426
+    },
+    {
+      "id": "revenue-by-country-01",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 670.0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 670.0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 4,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: [{'revenue': 670.0}]",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 670.0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'KZ'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='KZ'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 670.0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'KZ'"
+            }
+          }
+        ],
+        "elapsed_ms": 6991
+      },
+      "elapsed_ms": 7013
+    },
+    {
+      "id": "revenue-by-country-02",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 5,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'RU'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "order_items"
+            },
+            "output": [
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "product_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "quantity",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "unit_price",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "unit_cost",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='RU'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'RU'"
+            }
+          }
+        ],
+        "elapsed_ms": 6999
+      },
+      "elapsed_ms": 7027
+    },
+    {
+      "id": "revenue-by-country-03",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 4,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'US'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='US'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'US'"
+            }
+          }
+        ],
+        "elapsed_ms": 5972
+      },
+      "elapsed_ms": 5993
+    },
+    {
+      "id": "revenue-by-country-04",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 200.0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 200.0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 4,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: [{'revenue': 200.0}]",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 200.0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'DE'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='DE'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 200.0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'DE'"
+            }
+          }
+        ],
+        "elapsed_ms": 6288
+      },
+      "elapsed_ms": 6310
+    },
+    {
+      "id": "revenue-by-country-05",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 4,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'GB'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='GB'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'GB'"
+            }
+          }
+        ],
+        "elapsed_ms": 5705
+      },
+      "elapsed_ms": 5726
+    },
+    {
+      "id": "revenue-by-country-06",
+      "success": true,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": [
+        {
+          "revenue": 0
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 5,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "revenue"
+          ],
+          "rows": [
+            {
+              "revenue": 0
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'TR'"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "order_items"
+            },
+            "output": [
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "product_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "quantity",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "unit_price",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "unit_cost",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "orders"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "customer_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "ordered_at",
+                "data_type": "date",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "customers"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "name",
+                "data_type": "text",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "country",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COALESCE(SUM(i.quantity*i.unit_price),0) AS revenue FROM order_items i JOIN orders o ON o.id=i.order_id JOIN customers c ON c.id=o.customer_id WHERE o.status='paid' AND c.country='TR'"
+            },
+            "output": {
+              "columns": [
+                "revenue"
+              ],
+              "rows": [
+                {
+                  "revenue": 0
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COALESCE(SUM(i.quantity * i.unit_price), 0) AS revenue FROM order_items AS i JOIN orders AS o ON o.id = i.order_id JOIN customers AS c ON c.id = o.customer_id WHERE o.status = 'paid' AND c.country = 'TR'"
+            }
+          }
+        ],
+        "elapsed_ms": 6541
+      },
+      "elapsed_ms": 6563
+    },
+    {
+      "id": "payment-status-counts-01",
+      "success": true,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "settled",
+              "payment_count": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 1 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=1 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "settled",
+                  "payment_count": 1
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 1 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3909
+      },
+      "elapsed_ms": 3928
+    },
+    {
+      "id": "payment-status-counts-02",
+      "success": true,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "settled",
+              "payment_count": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 2 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=2 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "settled",
+                  "payment_count": 1
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 2 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3835
+      },
+      "elapsed_ms": 3853
+    },
+    {
+      "id": "payment-status-counts-03",
+      "success": true,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "settled",
+              "payment_count": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 3 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=3 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "settled",
+                  "payment_count": 1
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 3 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3869
+      },
+      "elapsed_ms": 3889
+    },
+    {
+      "id": "payment-status-counts-04",
+      "success": true,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "settled",
+              "payment_count": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 4 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=4 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "settled",
+                  "payment_count": 1
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 4 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3883
+      },
+      "elapsed_ms": 3902
+    },
+    {
+      "id": "payment-status-counts-05",
+      "success": true,
+      "expected": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        }
+      ],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Результат запроса: []",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 5 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=5 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 5 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 4003
+      },
+      "elapsed_ms": 4022
+    },
+    {
+      "id": "payment-status-counts-06",
+      "success": true,
+      "expected": [],
+      "actual": [],
+      "values_match": true,
+      "columns_match": true,
+      "tool_calls": 3,
+      "response": {
+        "mode": "model_api",
+        "answer": "Запрос выполнен. PostgreSQL вернул пустой результат.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [],
+          "row_count": 0,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 6 GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "describe_table",
+            "arguments": {
+              "table": "payments"
+            },
+            "output": [
+              {
+                "column_name": "id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "order_id",
+                "data_type": "integer",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "amount",
+                "data_type": "numeric",
+                "is_nullable": "NO"
+              },
+              {
+                "column_name": "status",
+                "data_type": "text",
+                "is_nullable": "NO"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id=6 GROUP BY status ORDER BY status"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [],
+              "row_count": 0,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments WHERE order_id = 6 GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3908
+      },
+      "elapsed_ms": 3926
+    }
+  ]
+}

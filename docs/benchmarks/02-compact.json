@@ -1,0 +1,108 @@
+{
+  "created_at": "2026-11-05T05:04:54.486291+00:00",
+  "model": "CohereLabs/tiny-aya-global",
+  "trained": false,
+  "split": "train",
+  "case_file_sha256": "72d4799727c062d97798e7c830f9d201ba9db63b009f10a8ca08da25ffae6a31",
+  "completed": 1,
+  "planned": 1,
+  "successes": 0,
+  "outcomes": [
+    {
+      "id": "train-products",
+      "success": false,
+      "expected": [
+        {
+          "total": 4
+        }
+      ],
+      "actual": [
+        {
+          "count": 4
+        }
+      ],
+      "response": {
+        "mode": "model_api",
+        "answer": "В каталоге 4 товара.",
+        "result": {
+          "columns": [
+            "count"
+          ],
+          "rows": [
+            {
+              "count": 4
+            }
+          ],
+          "row_count": 1,
+          "truncated": false,
+          "sql": "SELECT COUNT(*) FROM products"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT COUNT(*) FROM products"
+            },
+            "output": {
+              "columns": [
+                "count"
+              ],
+              "rows": [
+                {
+                  "count": 4
+                }
+              ],
+              "row_count": 1,
+              "truncated": false,
+              "sql": "SELECT COUNT(*) FROM products"
+            }
+          }
+        ],
+        "elapsed_ms": 219301
+      },
+      "elapsed_ms": 219402
+    }
+  ]
+}

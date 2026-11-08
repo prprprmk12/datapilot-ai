@@ -1,0 +1,1191 @@
+{
+  "created_at": "2026-11-08T17:09:37.466869+00:00",
+  "model": "CohereLabs/tiny-aya-global",
+  "variant": "base",
+  "sql_retries": 0,
+  "trained": false,
+  "split": "test",
+  "case_file_sha256": "cb23d6b81e95baec8a6977f56dd0f9c9b9cc3a83d9a155323ec2577deba87a03",
+  "completed": 18,
+  "planned": 18,
+  "successes": 0,
+  "outcomes": [
+    {
+      "id": "paid-profit-01",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (oi.quantity * p.selling_price - p.cost_price)) AS profit FROM order_items AS oi JOIN products AS p ON oi.product_id = p.id WHERE oi.order_id IN (SELECT o.id FROM orders AS o JOIN payments AS p ON o.paid = true WHERE o.status = 'paid') GROUP BY p.id ORDER BY profit DESC LIMIT 1"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 25013
+    },
+    {
+      "id": "paid-profit-02",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (oi.quantity * p.selling_price - p.cost_price)) AS profit FROM order_items oi JOIN products p ON oi.product_id = p.id JOIN orders o ON oi.order_id = o.id WHERE o.status = 'paid' GROUP BY p.id ORDER BY profit DESC LIMIT 2"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3453
+    },
+    {
+      "id": "paid-profit-03",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (oi.quantity * p.selling_price - p.cost_price)) AS profit FROM order_items oi JOIN products p ON oi.product_id = p.id JOIN orders o ON oi.order_id = o.id WHERE o.status = 'paid' GROUP BY p.id ORDER BY profit DESC LIMIT 3"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3452
+    },
+    {
+      "id": "paid-profit-04",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (oi.quantity * p.selling_price - p.cost_price)) AS profit FROM order_items oi JOIN products p ON oi.product_id = p.id JOIN orders o ON oi.order_id = o.id WHERE o.status = 'paid' GROUP BY p.id ORDER BY profit DESC LIMIT 4"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3463
+    },
+    {
+      "id": "paid-profit-05",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (p.selling_price - p.cost_price)) AS profit FROM order_items oi JOIN products p ON oi.product_id = p.id JOIN orders o ON oi.order_id = o.id WHERE o.status = 'paid' GROUP BY p.id ORDER BY profit DESC LIMIT 5"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3376
+    },
+    {
+      "id": "paid-profit-06",
+      "success": false,
+      "expected": [
+        {
+          "name": "Mouse",
+          "profit": 150.0
+        },
+        {
+          "name": "Keyboard",
+          "profit": 110.0
+        },
+        {
+          "name": "Monitor",
+          "profit": 80.0
+        },
+        {
+          "name": "Cable",
+          "profit": 21.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT p.name AS product_name, SUM(oi.quantity * (p.selling_price - p.cost_price)) AS profit FROM order_items oi JOIN products p ON oi.product_id = p.id JOIN orders o ON oi.order_id = o.id WHERE o.status = 'paid' GROUP BY p.id ORDER BY profit DESC LIMIT 6"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3378
+    },
+    {
+      "id": "revenue-by-country-01",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 670.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'paid' AND country = 'KZ') AND product_id IN (SELECT product_id FROM products WHERE country = 'KZ') AND order_id IN (SELECT order_id FROM orders WHERE status = 'paid') AND quantity > 0 AND unit_price > 0"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3785
+    },
+    {
+      "id": "revenue-by-country-02",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'paid' AND country = 'RU') AND product_id IN (SELECT product_id FROM products WHERE country = 'RU');"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 2896
+    },
+    {
+      "id": "revenue-by-country-03",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE status = 'paid' AND country = 'US';"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 2104
+    },
+    {
+      "id": "revenue-by-country-04",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 200.0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'paid' AND customer_id IN (SELECT id FROM customers WHERE country = 'DE') AND product_id IN (SELECT id FROM products) AND quantity > 0) AS paid_revenue"
+          },
+          "error_type": "UnsafeSQL"
+        }
+      ],
+      "error_type": "UnsafeSQL",
+      "cause_type": "ParseError",
+      "elapsed_ms": 3299
+    },
+    {
+      "id": "revenue-by-country-05",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'paid' AND country = 'GB') AND product_id IN (SELECT product_id FROM products WHERE category = 'Electronics') AND order_date BETWEEN '2023-01-01' AND '2023-12-31'"
+          },
+          "error_type": "UndefinedColumn"
+        }
+      ],
+      "error_type": "UndefinedColumn",
+      "cause_type": null,
+      "elapsed_ms": 3692
+    },
+    {
+      "id": "revenue-by-country-06",
+      "success": false,
+      "expected": [
+        {
+          "revenue": 0
+        }
+      ],
+      "actual": null,
+      "values_match": false,
+      "columns_match": false,
+      "tool_calls": 2,
+      "trace": [
+        {
+          "name": "list_tables",
+          "arguments": {},
+          "output": [
+            {
+              "table_name": "customers"
+            },
+            {
+              "table_name": "order_items"
+            },
+            {
+              "table_name": "orders"
+            },
+            {
+              "table_name": "payments"
+            },
+            {
+              "table_name": "products"
+            }
+          ]
+        },
+        {
+          "name": "execute_sql",
+          "arguments": {
+            "sql": "SELECT SUM(quantity * unit_price) AS revenue FROM order_items WHERE orders.status = 'paid' AND products.category = 'TR';"
+          },
+          "error_type": "UndefinedTable"
+        }
+      ],
+      "error_type": "UndefinedTable",
+      "cause_type": null,
+      "elapsed_ms": 2184
+    },
+    {
+      "id": "payment-status-counts-01",
+      "success": false,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 1 refunded payment and 4 settled payments.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 2896
+      },
+      "elapsed_ms": 2916
+    },
+    {
+      "id": "payment-status-counts-02",
+      "success": false,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 1 refunded payment and 4 settled payments.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 2876
+      },
+      "elapsed_ms": 2895
+    },
+    {
+      "id": "payment-status-counts-03",
+      "success": false,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 1 refunded payment and 4 settled payments.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 2878
+      },
+      "elapsed_ms": 2900
+    },
+    {
+      "id": "payment-status-counts-04",
+      "success": false,
+      "expected": [
+        {
+          "status": "settled",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 4 payments with status 'settled'.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 2836
+      },
+      "elapsed_ms": 2856
+    },
+    {
+      "id": "payment-status-counts-05",
+      "success": false,
+      "expected": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        }
+      ],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 5 payments with the following statuses: 1 refunded and 4 settled.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 3115
+      },
+      "elapsed_ms": 3133
+    },
+    {
+      "id": "payment-status-counts-06",
+      "success": false,
+      "expected": [],
+      "actual": [
+        {
+          "status": "refunded",
+          "payment_count": 1
+        },
+        {
+          "status": "settled",
+          "payment_count": 4
+        }
+      ],
+      "values_match": false,
+      "columns_match": true,
+      "tool_calls": 2,
+      "response": {
+        "mode": "model_api",
+        "answer": "There are 5 paid orders.",
+        "result": {
+          "columns": [
+            "status",
+            "payment_count"
+          ],
+          "rows": [
+            {
+              "status": "refunded",
+              "payment_count": 1
+            },
+            {
+              "status": "settled",
+              "payment_count": 4
+            }
+          ],
+          "row_count": 2,
+          "truncated": false,
+          "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+        },
+        "trace": [
+          {
+            "name": "list_tables",
+            "arguments": {},
+            "output": [
+              {
+                "table_name": "customers"
+              },
+              {
+                "table_name": "order_items"
+              },
+              {
+                "table_name": "orders"
+              },
+              {
+                "table_name": "payments"
+              },
+              {
+                "table_name": "products"
+              }
+            ]
+          },
+          {
+            "name": "execute_sql",
+            "arguments": {
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status;"
+            },
+            "output": {
+              "columns": [
+                "status",
+                "payment_count"
+              ],
+              "rows": [
+                {
+                  "status": "refunded",
+                  "payment_count": 1
+                },
+                {
+                  "status": "settled",
+                  "payment_count": 4
+                }
+              ],
+              "row_count": 2,
+              "truncated": false,
+              "sql": "SELECT status, COUNT(*) AS payment_count FROM payments GROUP BY status ORDER BY status"
+            }
+          }
+        ],
+        "elapsed_ms": 2733
+      },
+      "elapsed_ms": 2753
+    }
+  ]
+}

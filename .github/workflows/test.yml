@@ -1,0 +1,34 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: datapilot
+          POSTGRES_USER: datapilot_admin
+          POSTGRES_PASSWORD: ci_admin
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U datapilot_admin -d datapilot"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[test]' auditkit==1.1.3
+      - name: Load schema and seed
+        run: |
+          python - <<'PYCODE'
+          from pathlib import Path
+          import psycopg
+          with psycopg.connect('postgresql://datapilot_admin:ci_admin@localhost:5433/datapilot') as conn:
+              for path in sorted(Path('db').glob('*.sql')):
+                  conn.execute(path.read_text())
+          PYCODE
+      - run: pytest -q
+        env:
+          TEST_DATABASE_URL: postgresql://datapilot_reader:datapilot_demo_reader@localhost:5433/datapilot

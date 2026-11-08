@@ -1,0 +1,16 @@
+CREATE SCHEMA ecommerce;
+CREATE TABLE ecommerce.customers (id integer PRIMARY KEY, name text NOT NULL, country text NOT NULL);
+CREATE TABLE ecommerce.products (id integer PRIMARY KEY, name text NOT NULL, price numeric(12,2) NOT NULL CHECK(price>=0), cost numeric(12,2) NOT NULL CHECK(cost>=0));
+CREATE TABLE ecommerce.orders (id integer PRIMARY KEY, customer_id integer NOT NULL REFERENCES ecommerce.customers, ordered_at date NOT NULL, status text NOT NULL CHECK(status IN ('paid','cancelled','pending')));
+CREATE TABLE ecommerce.order_items (order_id integer REFERENCES ecommerce.orders, product_id integer REFERENCES ecommerce.products, quantity integer NOT NULL CHECK(quantity>0), unit_price numeric(12,2) NOT NULL, unit_cost numeric(12,2) NOT NULL, PRIMARY KEY(order_id,product_id));
+CREATE TABLE ecommerce.payments (id integer PRIMARY KEY, order_id integer NOT NULL REFERENCES ecommerce.orders, amount numeric(12,2) NOT NULL, status text NOT NULL CHECK(status IN ('settled','refunded')));
+CREATE INDEX ON ecommerce.orders(customer_id);
+CREATE INDEX ON ecommerce.orders(ordered_at);
+CREATE ROLE datapilot_reader LOGIN PASSWORD 'datapilot_demo_reader' NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+GRANT CONNECT ON DATABASE datapilot TO datapilot_reader;
+GRANT USAGE ON SCHEMA ecommerce TO datapilot_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA ecommerce TO datapilot_reader;
+ALTER ROLE datapilot_reader SET default_transaction_read_only = on;
+ALTER ROLE datapilot_reader SET statement_timeout = '2s';
+ALTER ROLE datapilot_reader SET search_path = ecommerce, pg_catalog;

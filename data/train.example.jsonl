@@ -1,0 +1,2 @@
+{"prompt":[{"role":"user","content":"Use execute_sql to count all products. Final answer must be only the integer."}],"answer":"4"}
+{"prompt":[{"role":"user","content":"Use execute_sql to count all customers. Final answer must be only the integer."}],"answer":"4"}
