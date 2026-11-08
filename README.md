@@ -3,8 +3,8 @@
 Агент-аналитик для PostgreSQL на небольшой дообученной модели. Пользователь задаёт вопрос на естественном языке, модель вызывает инструменты (`list_tables`, `describe_table`, `execute_sql`, `finish`) с доступом **только на чтение**, а приложение показывает SQL, результат и шаги агента.
 
 - Базовая модель: [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global) (3,35 млрд параметров, CC BY-NC 4.0)
-- Адаптер (LoRA, SFT): https://huggingface.co/HF_USER/datapilot-tiny-aya-sql-sft-extra
-- Данные и журналы оценки: https://huggingface.co/datasets/HF_USER/datapilot-ecommerce-sql
+- Адаптер (LoRA, SFT): https://huggingface.co/Ilirt/datapilot-tiny-aya-sql-sft-extra
+- Данные и журналы оценки: https://huggingface.co/datasets/Ilirt/datapilot-ecommerce-sql
 - Аннотация проекта: [`ANNOTATION.md`](ANNOTATION.md) · журналы запусков: [`results/`](results/)
 
 ## Результаты
